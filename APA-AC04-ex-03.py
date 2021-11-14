@@ -2,7 +2,6 @@ from networkx.algorithms.distance_measures import periphery
 from desenhaGrafo import *
 
 estados = {
-
     'RR': ['AM','PA'],
     'AM': ['AC','RO','PA','MT','RR'],
     'AC': ['AM','RO'],
@@ -32,6 +31,36 @@ estados = {
     
 }
 
+brasil = {
+    'Acre': ('Amazonas', 'Rondônia'),
+    'Alagoas': ('Bahia', 'Pernambuco', 'Sergipe'),
+    'Amapá': ('Pará',),
+    'Amazonas': ('Acre', 'Mato Grosso', 'Pará', 'Rondônia', 'Roraima'),
+    'Bahia': ("Alagoas", "Espírito Santo", "Goiás", "Minas Gerais", "Pernambuco", "Piauí", "Sergipe", "Tocantins"),
+    'Ceará': ('Paraíba', 'Pernambuco', 'Piauí', 'Rio Grande do Norte'),
+    'Distrito Federal': ('Goiás', 'Minas Gerais'),
+    'Espírito Santo': ('Bahia', 'Minas Gerais', 'Rio de Janeiro'),
+    'Goiás': ('Bahia', 'Distrito Federal', 'Mato Grosso', 'Mato Grosso do Sul', 'Minas Gerais', 'Tocantins'),
+    'Maranhão': ('Pará', 'Piauí', 'Tocantins'),
+    'Mato Grosso': ('Amazonas', 'Goiás', 'Mato Grosso do Sul', 'Pará', 'Rondônia', 'Tocantins'),
+    'Mato Grosso do Sul': ('Goiás', 'Mato Grosso', 'Minas Gerais', 'Paraná', 'São Paulo'),
+    'Minas Gerais': ('Bahia', 'Distrito Federal', 'Espírito Santo', 'Goiás', 'Mato Grosso do Sul', 'Rio de Janeiro', 'São Paulo'),
+    'Pará': ('Amapá', 'Amazonas', 'Maranhão', 'Mato Grosso', 'Roraima', 'Tocantins'),
+    'Paraíba': ('Ceará', 'Pernambuco', 'Rio Grande do Norte'),
+    'Paraná': ('Mato Grosso do Sul', 'Santa Catarina', 'São Paulo'),
+    'Pernambuco': ('Alagoas', 'Bahia', 'Ceará', 'Paraíba', 'Piauí'),
+    'Piauí': ('Bahia', 'Ceará', 'Maranhão', 'Tocantins'),
+    'Rio de Janeiro': ('Espírito Santo', 'Minas Gerais', 'São Paulo'),
+    'Rio Grande do Norte': ('Ceará', 'Paraíba'),
+    'Rio Grande do Sul': ('Santa Catarina',),
+    'Rondônia': ('Acre', 'Amazonas', 'Mato Grosso'),
+    'Roraima': ('Amazonas', 'Pará'),
+    'Santa Catarina': ('Paraná', 'Rio Grande do Sul'),
+    'São Paulo': ('Mato Grosso do Sul', 'Minas Gerais', 'Paraná', 'Rio de Janeiro'),
+    'Sergipe': ('Alagoas', 'Bahia'),
+    'Tocantins': ('Bahia', 'Goiás', 'Maranhão', 'Mato Grosso', 'Pará', 'Piauí')
+}
+
 def busca_largura(grafo, primeiro_elemento):
   """grafo: dicionário {elemento: [conexões]}"""
   arvore = dict()
@@ -53,13 +82,6 @@ def busca_largura(grafo, primeiro_elemento):
   
   return arvore
 
-melhorEstado= []
-conexoes = 0
-for estado in estados.items():
-
-    if(len(estado[1]) > conexoes):
-        conexoes = len(estado[1])
-        melhorEstado = estado
 
 def busca_profundidade(grafo, primeiro_elemento):
   """grafo: dicionário {elemento: [conexões]}"""
@@ -85,37 +107,59 @@ def busca_profundidade(grafo, primeiro_elemento):
     
     if remover:
       pilha.pop(-1)
-  
+
   return arvore
 
-def busca_melhor_cidade_por_profundidade(listacidade):
-  for cidade in listacidade:
-    buscaP = busca_profundidade(estados,cidade)
+    
+def busca_largura_lista(grafo, primeiro_elemento):
+  """grafo: dicionário {elemento: [conexões]}"""
+  conexoes = []
+  fila = [primeiro_elemento]
+  visitados = set()
+
+  while len(fila) > 0:
+    v = fila.pop(0)
+    visitados.add(v)
+    
+    for w in grafo[v]:
+      if w not in visitados:
+        visitados.add(w)
+        fila.append(w)
+        conexoes.append((v, w))
+  
+  return conexoes
+
+# ------------------------------ Métodos criados pelos alunos
 
 def criaTuplaEstados(dictEstados):
+  """recebe dict como argumento e retona lista de conexoes entre vertices"""
   grafoparaDesenhar = []
   for key in dictEstados.keys():
     for ligacoes in dictEstados[key]:
       grafoparaDesenhar.append((key,ligacoes))
   return grafoparaDesenhar
-    
 
-buscaP = busca_profundidade(estados,'TO')
-buscaL = busca_largura(estados,'TO')
 
-A = criaTuplaEstados(buscaP)    
-B = criaTuplaEstados(buscaL)
-print(buscaP)
+#terminar
+def busca_melhor_cidade_por_profundidade(listacidade):
+  for cidade in listacidade:
+    buscaP = busca_profundidade(estados,cidade)
+  pass
 
-tamanhoBuscaProfundidade=desenhaGrafo(A)
-tamanhoBuscaLargura=desenhaGrafo(B)
 
-print(tamanhoBuscaLargura)
-print()
-print(tamanhoBuscaProfundidade)
 
-# print("Busca de profundidade: ")
-# print(buscaP)
+# --------------------------------------------------- main
+# tuplas com estados
+tuplaEstados = criaTuplaEstados(brasil)
+print(tuplaEstados)
 
-# print("Busca em Largura:")
-# print(buscaL)
+# desenha grafo com todas as conexões
+desenhaGrafo(tuplaEstados)
+
+# realiza buscas
+buscaLarguraEstados = busca_largura(brasil, "Goiás")
+buscaProfundidadeEstados = busca_profundidade(brasil, "Goiás")
+
+# desenha grafos
+desenhaGrafo(criaTuplaEstados(buscaLarguraEstados))
+desenhaGrafo(criaTuplaEstados(buscaProfundidadeEstados))
