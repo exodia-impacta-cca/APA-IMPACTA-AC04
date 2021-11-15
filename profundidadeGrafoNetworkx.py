@@ -38,6 +38,3 @@ def calculaMaximaProfundidade(G, Source=None, limit=None):
     dfs_profundidade(G)
     return max_d
     #return max(max_d)
-
-
-
