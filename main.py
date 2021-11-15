@@ -1,6 +1,7 @@
 from apaAc04 import *
 from desenhaGrafo import *
 from profundidadeGrafoNetworkx import *
+import networkx as nx
 
 # ------------------------------- dicionario estados Brasil
 estados = {
@@ -101,5 +102,21 @@ brasil = {
 
 
 # --------------------------------------------------- main
+
+for cidade in brasil.keys():
+    buscLarg = criaGrafoNextowrkXComNodes(busca_largura(brasil, cidade))
+    print('cidade: ', cidade)
+    motraDictPorLinha(busca_largura(brasil, cidade))
+    print()
+    desenhaGrafo(buscLarg)
+
+for cidade in brasil.keys():
+    buscaProf = criaGrafoNextowrkXComNodes(busca_profundidade(brasil, cidade))
+    print('Cidade: ', cidade)
+    motraDictPorLinha(busca_profundidade(brasil, cidade))
+    print()
+    desenhaGrafo(buscaProf)
+
+
 
 

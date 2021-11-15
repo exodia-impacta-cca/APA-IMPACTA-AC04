@@ -119,6 +119,12 @@ def buscaCaminhoLinearProfundidade(mapa):
 def motraDictPorLinha(dictGrafo):
     """recebe dict como argumento e retona lista de conexoes entre vertices
     em formato de dict"""
-    grafoparaDesenhar = []
     for key in dictGrafo.keys():
         print(f"{key}{dictGrafo[key]}")
+
+def motraDictPorLinha2(dictGrafo):
+    """recebe dict como argumento e retona lista de conexoes entre vertices
+    em formato de dict"""
+    for k,v in dictGrafo.items():
+        print(f"{k}{v}")
+

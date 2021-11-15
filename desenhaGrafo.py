@@ -28,7 +28,7 @@ def criaTuplaEstados(dictEstados):
     return grafoparaDesenhar
 
 def criaGrafoNextowrkXComEdges(listaCidadeDistancia):
-    G = nx.Graph()
+    G = nx.MultiGraph()
     for edge in listaCidadeDistancia:
         G.add_edge(edge[0], edge[1])
     return G
@@ -39,4 +39,7 @@ def criaGrafoNextowrkXComNodes(listaCidadeDistancia):
     G.add_nodes_from(listaCidadeDistancia)
     G.add_edges_from(criaTuplaEstados(listaCidadeDistancia))
     return G
- 
+
+# não funciona
+def contaDistancia(dictGrafo, inicio, fim):
+    pass
