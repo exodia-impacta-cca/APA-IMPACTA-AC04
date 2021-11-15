@@ -1,6 +1,7 @@
+import networkx as nx
+import matplotlib.pyplot as plt
+
 def desenhaGrafo(listaCidadeDistancia):
-    import networkx as nx
-    import matplotlib.pyplot as plt
     g = nx.Graph()
     for edge in listaCidadeDistancia:
         g.add_edge(edge[0], edge[1])
@@ -11,4 +12,10 @@ def desenhaGrafo(listaCidadeDistancia):
     plt.axis("off")
     plt.show()
 
+
+def criaGrafoNextowrkX(listaCidadeDistancia):
+    G = nx.Graph()
+    for edge in listaCidadeDistancia:
+        G.add_edge(edge[0], edge[1])
+    return 
  
